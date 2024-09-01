@@ -1,6 +1,8 @@
 package config
 
 import (
+	"log"
+
 	"github.com/spf13/viper"
 )
 
@@ -14,24 +16,38 @@ type Config struct {
 	CronSchedule string
 }
 
-func LoadConfig() (*Config, error) {
-	viper.SetConfigName("config")
-	viper.SetConfigType("yaml")
-	viper.AddConfigPath(".")
+func LoadConfig() (Config, error) {
+
+	localEnv := viper.New()
+	localEnv.SetConfigType("dotenv")
+	viper.SetConfigFile(".env") // Specify the config file name
+
+	// Set default values
+	viper.SetDefault("DBHost", "localhost")
+	viper.SetDefault("DBPort", "5432")
+	viper.SetDefault("DBUser", "user")
+	viper.SetDefault("DBPassword", "password")
+	viper.SetDefault("DBName", "database")
+	viper.SetDefault("AppDebug", true)
+
+	// Allow Viper to read environment variables
 	viper.AutomaticEnv()
 
-	if err := viper.ReadInConfig(); err != nil {
-		return nil, err
+	// Read the configuration file
+	err := viper.ReadInConfig()
+	if err != nil {
+		log.Printf("Error reading config file: %s, using default values or environment variables", err)
 	}
 
-	config := &Config{
-		DBHost:       viper.GetString("database.host"),
-		DBPort:       viper.GetString("database.port"),
-		DBUser:       viper.GetString("database.user"),
-		DBPassword:   viper.GetString("database.password"),
-		DBName:       viper.GetString("database.name"),
-		BackupDir:    viper.GetString("backup.dir"),
-		CronSchedule: viper.GetString("cron.schedule"),
+	// add value to the config
+	config := Config{
+		DBHost:       viper.GetString("DB_HOST"),
+		DBPort:       viper.GetString("DB_PORT"),
+		DBUser:       viper.GetString("DB_USER"),
+		DBPassword:   viper.GetString("DB_PASSWORD"),
+		DBName:       viper.GetString("DB_NAME"),
+		BackupDir:    viper.GetString("BACKUP_DIR"),
+		CronSchedule: viper.GetString("CRON_SHEDULE"),
 	}
 
 	return config, nil

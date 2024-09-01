@@ -8,7 +8,8 @@ import (
 	"time"
 )
 
-func BackupDatabase(cfg *config.Config) {
+func BackupDatabase(cfg config.Config) {
+	fmt.Println("name DB :" + cfg.DBName)
 	timestamp := time.Now().Format("20060102_150405")
 	backupFile := fmt.Sprintf("%s/backup_%s.sql", cfg.BackupDir, timestamp)
 
