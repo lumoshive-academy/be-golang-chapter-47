@@ -1,9 +1,9 @@
 package main
 
 import (
-	"be-golang-chapter-47/config"
-	"be-golang-chapter-47/cronjob"
-	"be-golang-chapter-47/handler"
+	"be-golang-chapter-47/implem-cron/config"
+	"be-golang-chapter-47/implem-cron/cronjob"
+	"be-golang-chapter-47/implem-cron/handler"
 	"log"
 	"net/http"
 
