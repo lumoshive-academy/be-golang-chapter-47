@@ -1,7 +1,7 @@
 package cronjob
 
 import (
-	"be-golang-chapter-47/implem-cron/config"
+	"be-golang-chapter-47/LA-Chapter-47E/config"
 	"fmt"
 	"log"
 	"os/exec"
